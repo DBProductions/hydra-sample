@@ -1,0 +1,28 @@
+version: '3'
+services:
+  redis:
+    image: redis:alpine
+    ports:
+    - "6379:6379"
+  consumer:
+    build: ./consumer
+    links:
+     - redis
+  cronjob:
+    build: ./cronjob
+    links:
+     - redis
+  worker1:
+    build: ./worker
+    links:
+     - redis
+  worker2:
+    build: ./worker
+    links:
+     - redis
+  server:
+    build: ./server
+    ports:
+      - "3000:3000"
+    links:
+     - redis
